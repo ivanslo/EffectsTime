@@ -110,8 +110,7 @@ class MainViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             
             AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { [unowned self] granted in
                 self.state_permissionGranted = granted
-                self.enableUI( true )
-                
+                self.enableUI( granted )
             })
             break
             

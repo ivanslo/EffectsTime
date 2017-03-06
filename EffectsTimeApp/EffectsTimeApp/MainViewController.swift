@@ -213,6 +213,8 @@ class MainViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             clearScreens()
         }
         state_recording = record
+        /* Using the isSelected property to 'toggle' between recording and not-recording 
+         * status, simulating a toggle button */
         recordButton.isSelected = record
     }
     

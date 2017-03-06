@@ -107,12 +107,11 @@
 				985CF4BC1E6D0322007F7368 /* Storyboards */,
 				985CF49B1E6AF7CC007F7368 /* Shaders */,
 				980E1C0B1E65FEBE00EE5F57 /* AppDelegate.swift */,
+				985CF4B51E6C5F4E007F7368 /* MainViewController.swift */,
+				985CF4971E6ADFF3007F7368 /* GLViewer.swift */,
 				980E1C1E1E663BEE00EE5F57 /* OpenCVWrapper.h */,
 				980E1C1F1E663BEE00EE5F57 /* OpenCVWrapper.mm */,
 				980E1C1D1E663BEE00EE5F57 /* bridge_header.h */,
-				985CF4971E6ADFF3007F7368 /* GLViewer.swift */,
-				985CF4AF1E6C1C13007F7368 /* Shader.swift */,
-				985CF4B51E6C5F4E007F7368 /* MainViewController.swift */,
 				985CF4B71E6C7B6E007F7368 /* Effects.h */,
 				985CF4B81E6CA6B1007F7368 /* Helper.swift */,
 			);
@@ -140,6 +139,7 @@
 		985CF49B1E6AF7CC007F7368 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				985CF4AF1E6C1C13007F7368 /* Shader.swift */,
 				985CF4AA1E6B67F9007F7368 /* textureVertex.glsl */,
 				985CF4AD1E6B6811007F7368 /* textureFragment.glsl */,
 			);

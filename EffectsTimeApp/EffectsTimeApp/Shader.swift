@@ -10,9 +10,9 @@ import Foundation
 
 
 class Shader : NSObject {
-    /* Helper class for creating shaders */
-    
-    
+    /* 
+     * Helper class for creating shaders 
+     */
     
     static func createProgram(vertexShader : GLuint, fragmentShader: GLuint) -> GLuint {
         let program = glCreateProgram()
@@ -27,6 +27,8 @@ class Shader : NSObject {
         }
         return program
     }
+    
+    /* ------------------------------------------- */
     
     static func createShaderFromFile(_ fileName: String, ext: String, shaderType: GLenum ) -> GLuint {
         let shaderPath: String! = Bundle.main.path(forResource: fileName, ofType: ext)

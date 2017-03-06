@@ -38,7 +38,6 @@ class MainViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     /* ------------------------------------------- */
     
     private let queue_session   = DispatchQueue(label: "queue.effectstime.session", attributes: [], target: nil)
-    private let queue_video     = DispatchQueue(label: "queue.effectstime.video")
     
     private var state_recording                 : Bool = false
     private var state_permissionGranted         : Bool = false
@@ -80,7 +79,6 @@ class MainViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        setRecording( false )
     }
 
     /* ------------------------------------------- */
@@ -249,37 +247,6 @@ class MainViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
     
     /* ------------------------------------------- */
     
-    @IBAction func switch_viewOpenCVChanged(_ sender: Any) {
-        if !(sender as! UISwitch).isOn {
-            DispatchQueue.main.async {
-                self.viewOpenCV.image = nil
-            }
-        }
-    }
-    
-    /* ------------------------------------------- */
-    
-    @IBAction func switch_viewOriginalChanged(_ sender: Any) {
-        if !(sender as! UISwitch).isOn {
-            DispatchQueue.main.async {
-                self.viewOriginal.image = nil
-            }
-        }
-    }
-    
-    /* ------------------------------------------- */
-    
-    @IBAction func switch_viewOpenGLChanged(_ sender: Any) {
-        if !(sender as! UISwitch).isOn {
-            DispatchQueue.main.async {
-                self.viewOpenGL.clearScreen()
-                self.viewOpenGL.display()
-            }
-        }
-    }
-    
-    /* ------------------------------------------- */
-    
     func enableUI(_ enable: Bool ) {
         DispatchQueue.main.async {
             self.recordButton.isEnabled         = enable
@@ -318,16 +285,28 @@ class MainViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
         // OpenGL
         if switch_viewOpenGL.isOn {
             viewOpenGL.processAndPresentFrame(pixelBuffer, apply: config_effects)
+        } else {
+            viewOpenGL.clearScreen()
         }
+        
         // OpenCV
         if switch_viewOpenCV.isOn {
             OpenCVWrapper.processAndPresentFrame(sampleBuffer, in: viewOpenCV, apply: config_effects)
+        } else if viewOpenCV.image != nil {
+            DispatchQueue.main.async {
+                self.viewOpenCV.image = nil
+            }
         }
+        
         // Display Original
         if switch_viewOriginal.isOn {
             let image = Helper.sampleBufferToUIImage(sampleBuffer: sampleBuffer)
             DispatchQueue.main.async {
                 self.viewOriginal.image = image
+            }
+        } else if viewOriginal.image != nil {
+            DispatchQueue.main.async {
+                self.viewOriginal.image = nil
             }
         }
     }
@@ -342,13 +321,15 @@ class MainViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffer
             if av_captureSession == nil {
                 return
             }
+            queue_session.async {
+                self.av_captureSession!.beginConfiguration()
+                
+                let connection = self.av_captureVideoDataOutput!.connection(withMediaType: AVMediaTypeVideo)
+                connection!.videoOrientation = orientation.videoOrientation!
+                
+                self.av_captureSession!.commitConfiguration()
+            }
             
-            av_captureSession!.beginConfiguration()
-            
-            let connection = av_captureVideoDataOutput!.connection(withMediaType: AVMediaTypeVideo)
-            connection!.videoOrientation = orientation.videoOrientation!
-            
-            av_captureSession!.commitConfiguration()
         }
     }
 }

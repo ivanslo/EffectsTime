@@ -15,6 +15,7 @@ class GLViewer: GLKView {
     /* ------------------------------------------ */
     
     private var initialized : Bool = false
+    private var isClear     : Bool = false
     
     /* ------------------------------------------ */
     
@@ -132,16 +133,21 @@ class GLViewer: GLKView {
             glDrawElements(GLenum(GL_TRIANGLES), 6, GLenum(GL_UNSIGNED_INT), nil)
         glBindVertexArray(0)
         
+        isClear = false
         self.display()
     }
     
     func clearScreen() {
+        if isClear {
+            return
+        }
         if !initialized {
             initialize()
         }
         glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT));
         self.display()
+        isClear = true
     }
     
     /* ------------------------------------------ */

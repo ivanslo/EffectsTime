@@ -2,7 +2,7 @@
 
 ### Compile and Run ###
 
-- Download OpenCV for iOS from [1] y extract it
+- Download OpenCV for iOS from [1] and extract it
 - Copy the file opencv2.framework into EffectsTimeApp/Externals/ folder
 - open in Xcode EffectsTimeApp/EffectsTimeApp.xcodeproj
 - Solve the signing of the app
